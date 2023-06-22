@@ -30,4 +30,8 @@
     <Folder Include="Logs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PaymentGatewaySolution.Infrastructure\PaymentGatewaySolution.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,7 @@
-﻿namespace PaymentGatewaySolution.Api.Extensions
+﻿using Microsoft.EntityFrameworkCore;
+using PaymentGatewaySolution.Infrastructure.Context;
+
+namespace PaymentGatewaySolution.Api.Extensions
 {
     /// <summary>
     /// Extension Method to Configure Services
@@ -18,6 +21,10 @@
             services.AddEndpointsApiExplorer();
 
             //Added ApplicationDbContext
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            });
 
             //Added AutoMapper
 
