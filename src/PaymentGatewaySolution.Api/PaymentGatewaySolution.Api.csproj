@@ -7,6 +7,8 @@
     <UserSecretsId>474c62fc-1957-4cf7-bc22-841dc073f711</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>APIDocumentation\ApiDocumentation.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +20,6 @@
     <Folder Include="APIDocumentation\" />
     <Folder Include="Controllers\" />
     <Folder Include="Logs\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
