@@ -1,5 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PaymentGateway.Core.Domain.BankSimulatorContracts;
+using PaymentGateway.Infrastructure.Repositories;
+using PaymentGatewaySolution.Core.Domain.RepositoryContracts.PaymentDetailsContracts;
+using PaymentGatewaySolution.Core.ServiceContracts.IPaymentService;
+using PaymentGatewaySolution.Core.Services.PaymentService;
 using PaymentGatewaySolution.Infrastructure.Context;
+using PaymentGatewaySolution.Infrastructure.Repositories;
 
 namespace PaymentGatewaySolution.Api.Extensions
 {
@@ -29,6 +35,11 @@ namespace PaymentGatewaySolution.Api.Extensions
             //Added AutoMapper
 
             //Added Services
+            services.AddScoped<IProcessPaymentService, ProcessPaymentService>();
+            services.AddScoped<IGetPaymentDetailsService, GetPaymentDetailsService>();
+            services.AddScoped<IAddPaymentDetailsRepository, AddPaymentDetailsRepository>();
+            services.AddScoped<IGetPaymentDetailsRepository, GetPaymentDetailsRepository>();
+            services.AddScoped<IBankSimulator, BankSimulator>();
 
             //Added Cors
             services.AddCors(options => {
