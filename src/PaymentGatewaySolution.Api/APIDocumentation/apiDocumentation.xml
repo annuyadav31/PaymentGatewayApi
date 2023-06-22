@@ -28,6 +28,13 @@
             <param name="paymentRequest">Object which should be passed to the endpoint</param>
             <returns>Returns the payment Response indicating whether it is successful or not with a newly generated transactionId</returns>
         </member>
+        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.GetPaymentDetails(System.String)">
+            <summary>
+            Endpoint to get payment details based on transactionId
+            </summary>
+            <param name="transactionId">Parameter used to uniquely identify a transaction.</param>
+            <returns>Returns matching payment details</returns>
+        </member>
         <member name="T:PaymentGatewaySolution.Api.Extensions.SerilogConfiguration">
             <summary>
             Method to add configuration for serilog

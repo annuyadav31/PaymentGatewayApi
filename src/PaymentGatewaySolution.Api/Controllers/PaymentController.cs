@@ -73,7 +73,35 @@ namespace PaymentGatewaySolution.Api.Controllers
         }
         #endregion
 
+        #region "GetPaymentDetails"
 
+        /// <summary>
+        /// Endpoint to get payment details based on transactionId
+        /// </summary>
+        /// <param name="transactionId">Parameter used to uniquely identify a transaction.</param>
+        /// <returns>Returns matching payment details</returns>
+        [HttpGet("{transactionId}")]
+        public async Task<ActionResult<PaymentResponse>> GetPaymentDetails(string transactionId)
+        {
+            try
+            {
+                var payment = await _paymentService.GetPaymentDetails(Guid.Parse(transactionId));
+
+                return Ok(payment);
+            }
+            catch (PaymentGatewayException ex)
+            {
+                _logger.LogError(ex, $"Error retrieving payment details: {ex.Message}");
+
+                return BadRequest(new PaymentResponse
+                {
+                    TransactionID = Guid.Parse(transactionId),
+                    Successful = false,
+                    Message = ex.Message
+                });
+            }
+        }
+        #endregion
         #endregion
     }
 }
