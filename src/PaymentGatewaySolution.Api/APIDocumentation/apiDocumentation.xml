@@ -4,6 +4,30 @@
         <name>PaymentGatewaySolution.Api</name>
     </assembly>
     <members>
+        <member name="T:PaymentGatewaySolution.Api.Controllers.CustomControllerBases.CustomControllerBase">
+            <summary>
+            Controller Base for common Information
+            </summary>
+        </member>
+        <member name="T:PaymentGatewaySolution.Api.Controllers.PaymentController">
+            <summary>
+            Payment Controller to Process Payments and Get Payment Details
+            </summary>
+        </member>
+        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.#ctor(Microsoft.Extensions.Logging.ILogger{PaymentGatewaySolution.Api.Controllers.PaymentController},PaymentGateway.Core.ServiceContracts.IPaymentService)">
+            <summary>
+            Constructor for Payment Controller
+            </summary>
+            <param name="logger"></param>
+            <param name="paymentService"></param>
+        </member>
+        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.ProcessPayment(PaymentGateway.Core.ModelDTO.PaymentDTO.AddPaymentRequestDTO)">
+            <summary>
+            Endpoint to process payment
+            </summary>
+            <param name="paymentRequest">Object which should be passed to the endpoint</param>
+            <returns>Returns the payment Response indicating whether it is successful or not with a newly generated transactionId</returns>
+        </member>
         <member name="T:PaymentGatewaySolution.Api.Extensions.SerilogConfiguration">
             <summary>
             Method to add configuration for serilog

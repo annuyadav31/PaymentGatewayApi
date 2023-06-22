@@ -10,9 +10,6 @@
     <Folder Include="Domain\BankSimulatorContracts\" />
     <Folder Include="Domain\RepositoryContracts\" />
     <Folder Include="Helpers\" />
-    <Folder Include="ModelDTO\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="Services\" />
     <Folder Include="ServiceContracts\" />
   </ItemGroup>
 

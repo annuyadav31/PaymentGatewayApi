@@ -26,11 +26,11 @@
 
   <ItemGroup>
     <Folder Include="APIDocumentation\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Logs\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PaymentGatewaySolution.Core\PaymentGatewaySolution.Core.csproj" />
     <ProjectReference Include="..\PaymentGatewaySolution.Infrastructure\PaymentGatewaySolution.Infrastructure.csproj" />
   </ItemGroup>
 
