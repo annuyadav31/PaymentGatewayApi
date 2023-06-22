@@ -1,17 +1,4 @@
-﻿using AutoFixture;
-using FluentAssertions;
-using Microsoft.Extensions.Logging;
-using Moq;
-using PaymentGateway.Core.Domain.BankSimulatorContracts;
-using PaymentGateway.Core.ModelDTO.BankDTO;
-using PaymentGateway.Core.ModelDTO.PaymentDTO;
-using PaymentGatewaySolution.Core.Domain.Models;
-using PaymentGatewaySolution.Core.Domain.RepositoryContracts.PaymentDetailsContracts;
-using PaymentGatewaySolution.Core.ServiceContracts.IPaymentService;
-using PaymentGatewaySolution.Core.Services.PaymentService;
-using Xunit.Abstractions;
-
-namespace PaymentGatewaySolution.Core.Tests.PaymentServiceTests
+﻿namespace PaymentGatewaySolution.Core.Tests.PaymentServiceTests
 {
     public class ProcessPaymentServiceTests
     {

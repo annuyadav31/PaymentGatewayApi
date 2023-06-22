@@ -1,1 +1,13 @@
+global using AutoFixture;
+global using FluentAssertions;
+global using Microsoft.Extensions.Logging;
+global using Moq;
+global using PaymentGateway.Core.Domain.BankSimulatorContracts;
+global using PaymentGateway.Core.ModelDTO.BankDTO;
+global using PaymentGateway.Core.ModelDTO.PaymentDTO;
+global using PaymentGatewaySolution.Core.Domain.Models;
+global using PaymentGatewaySolution.Core.Domain.RepositoryContracts.PaymentDetailsContracts;
+global using PaymentGatewaySolution.Core.ServiceContracts.IPaymentService;
+global using PaymentGatewaySolution.Core.Services.PaymentService;
+global using Xunit.Abstractions;
 global using Xunit;
