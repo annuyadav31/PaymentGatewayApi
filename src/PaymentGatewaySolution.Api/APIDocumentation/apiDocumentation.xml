@@ -4,6 +4,18 @@
         <name>PaymentGatewaySolution.Api</name>
     </assembly>
     <members>
+        <member name="T:PaymentGatewaySolution.Api.Extensions.SerilogConfiguration">
+            <summary>
+            Method to add configuration for serilog
+            </summary>
+        </member>
+        <member name="M:PaymentGatewaySolution.Api.Extensions.SerilogConfiguration.ConfigureSerilog(Microsoft.Extensions.Hosting.IHostBuilder)">
+            <summary>
+            Extension Method to add serilog for file sink.
+            </summary>
+            <param name="host"></param>
+            <returns>Returns host</returns>
+        </member>
         <member name="T:PaymentGatewaySolution.Api.Extensions.ServiceConfiguration">
             <summary>
             Extension Method to Configure Services

@@ -8,6 +8,9 @@ builder.Services.ConfigureServices(builder.Configuration);
 // Add swagger to the container
 builder.Services.ConfigureSwagger(builder.Configuration);
 
+//Add Serilog to the container
+builder.Host.ConfigureSerilog();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
