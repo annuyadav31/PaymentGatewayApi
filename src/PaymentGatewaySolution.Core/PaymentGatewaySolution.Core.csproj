@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Domain\BankSimulatorContracts\" />
-    <Folder Include="Domain\Models\" />
     <Folder Include="Domain\RepositoryContracts\" />
     <Folder Include="Helpers\" />
     <Folder Include="ModelDTO\" />
