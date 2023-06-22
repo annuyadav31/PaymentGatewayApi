@@ -4,32 +4,29 @@ using PaymentGateway.Core.ModelDTO.PaymentDTO;
 using PaymentGatewaySolution.Api.Controllers.CustomControllerBases;
 using PaymentGatewaySolution.Core.ServiceContracts.IPaymentService;
 
-namespace PaymentGatewaySolution.Api.Controllers
+namespace PaymentGatewaySolution.Api.Controllers.PaymentController
 {
     /// <summary>
     /// Payment Controller to Process Payments and Get Payment Details
     /// </summary>
-    public class PaymentController : CustomControllerBase
+    public class AddPaymentController : CustomControllerBase
     {
         #region "Readonly fields"
         private readonly IProcessPaymentService _processPaymentService;
-        private readonly IGetPaymentDetailsService _getPaymentDetailsService;
-        private readonly ILogger<PaymentController> _logger;
+        private readonly ILogger<AddPaymentController> _logger;
         #endregion
 
 
         /// <summary>
-        /// Constructor for Payment Controller
+        /// Constructor for Add Payment Controller
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="processPaymentService"></param>
-        /// <param name="getPaymentDetailsService"></param>
         #region "Constructor"
-        public PaymentController(ILogger<PaymentController> logger, IProcessPaymentService processPaymentService , IGetPaymentDetailsService getPaymentDetailsService)
+        public AddPaymentController(ILogger<AddPaymentController> logger, IProcessPaymentService processPaymentService)
         {
             _logger = logger;
             _processPaymentService = processPaymentService;
-            _getPaymentDetailsService = getPaymentDetailsService;
 
         }
         #endregion
@@ -77,35 +74,6 @@ namespace PaymentGatewaySolution.Api.Controllers
         }
         #endregion
 
-        #region "GetPaymentDetails"
-
-        /// <summary>
-        /// Endpoint to get payment details based on transactionId
-        /// </summary>
-        /// <param name="transactionId">Parameter used to uniquely identify a transaction.</param>
-        /// <returns>Returns matching payment details</returns>
-        [HttpGet("{transactionId}")]
-        public async Task<ActionResult<PaymentResponse>> GetPaymentDetails(string transactionId)
-        {
-            try
-            {
-                var payment = await _getPaymentDetailsService.GetPaymentDetails(Guid.Parse(transactionId));
-
-                return Ok(payment);
-            }
-            catch (PaymentGatewayException ex)
-            {
-                _logger.LogError(ex, $"Error retrieving payment details: {ex.Message}");
-
-                return BadRequest(new PaymentResponse
-                {
-                    TransactionID = Guid.Parse(transactionId),
-                    Successful = false,
-                    Message = ex.Message
-                });
-            }
-        }
-        #endregion
         #endregion
     }
 }

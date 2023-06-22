@@ -9,27 +9,38 @@
             Controller Base for common Information
             </summary>
         </member>
-        <member name="T:PaymentGatewaySolution.Api.Controllers.PaymentController">
+        <member name="T:PaymentGatewaySolution.Api.Controllers.PaymentController.AddPaymentController">
             <summary>
             Payment Controller to Process Payments and Get Payment Details
             </summary>
         </member>
-        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.#ctor(Microsoft.Extensions.Logging.ILogger{PaymentGatewaySolution.Api.Controllers.PaymentController},PaymentGatewaySolution.Core.ServiceContracts.IPaymentService.IProcessPaymentService,PaymentGatewaySolution.Core.ServiceContracts.IPaymentService.IGetPaymentDetailsService)">
+        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.AddPaymentController.#ctor(Microsoft.Extensions.Logging.ILogger{PaymentGatewaySolution.Api.Controllers.PaymentController.AddPaymentController},PaymentGatewaySolution.Core.ServiceContracts.IPaymentService.IProcessPaymentService)">
             <summary>
-            Constructor for Payment Controller
+            Constructor for Add Payment Controller
             </summary>
             <param name="logger"></param>
             <param name="processPaymentService"></param>
-            <param name="getPaymentDetailsService"></param>
         </member>
-        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.ProcessPayment(PaymentGateway.Core.ModelDTO.PaymentDTO.AddPaymentRequestDTO)">
+        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.AddPaymentController.ProcessPayment(PaymentGateway.Core.ModelDTO.PaymentDTO.AddPaymentRequestDTO)">
             <summary>
             Endpoint to process payment
             </summary>
             <param name="paymentRequest">Object which should be passed to the endpoint</param>
             <returns>Returns the payment Response indicating whether it is successful or not with a newly generated transactionId</returns>
         </member>
-        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.GetPaymentDetails(System.String)">
+        <member name="T:PaymentGatewaySolution.Api.Controllers.PaymentController.GetPaymentDetailsController">
+            <summary>
+            Payment Controller to Get Payment Details through TransactionId
+            </summary>
+        </member>
+        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.GetPaymentDetailsController.#ctor(Microsoft.Extensions.Logging.ILogger{PaymentGatewaySolution.Api.Controllers.PaymentController.GetPaymentDetailsController},PaymentGatewaySolution.Core.ServiceContracts.IPaymentService.IGetPaymentDetailsService)">
+            <summary>
+            Constructor for Get Payment Details Controller
+            </summary>
+            <param name="logger"></param>
+            <param name="getPaymentDetailsService"></param>
+        </member>
+        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.GetPaymentDetailsController.GetPaymentDetails(System.String)">
             <summary>
             Endpoint to get payment details based on transactionId
             </summary>

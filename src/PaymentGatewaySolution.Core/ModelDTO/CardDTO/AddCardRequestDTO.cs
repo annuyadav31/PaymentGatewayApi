@@ -8,7 +8,7 @@ namespace PaymentGateway.Core.ModelDTO.CardDTO
     /// </summary>
     public class AddCardRequestDTO
     {
-        [StringLength(19)]
+        [StringLength(19, MinimumLength =8)]
         [Required]
         public string? CardNumber { get; set; }
 
@@ -24,7 +24,7 @@ namespace PaymentGateway.Core.ModelDTO.CardDTO
         [Required]
         public int ExpiryYear { get; set; }
 
-        [Range(3, 4)]
+        [Range(100,9999)]
         [Required]
         public int Cvv { get; set; }
 

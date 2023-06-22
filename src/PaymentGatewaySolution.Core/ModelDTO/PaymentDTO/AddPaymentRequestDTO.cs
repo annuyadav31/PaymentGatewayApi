@@ -13,7 +13,7 @@ namespace PaymentGateway.Core.ModelDTO.PaymentDTO
         public AddCardRequestDTO? CardDetails { get; set; }
 
 
-        [Range(0, double.MaxValue)]
+        [Range(0.1, double.MaxValue)]
         [Required(ErrorMessage ="Please provide amount which has to be deducted")]
         public double Amount { get; set; }
 
