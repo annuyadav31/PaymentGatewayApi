@@ -14,12 +14,13 @@
             Payment Controller to Process Payments and Get Payment Details
             </summary>
         </member>
-        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.#ctor(Microsoft.Extensions.Logging.ILogger{PaymentGatewaySolution.Api.Controllers.PaymentController},PaymentGateway.Core.ServiceContracts.IPaymentService)">
+        <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.#ctor(Microsoft.Extensions.Logging.ILogger{PaymentGatewaySolution.Api.Controllers.PaymentController},PaymentGatewaySolution.Core.ServiceContracts.IPaymentService.IProcessPaymentService,PaymentGatewaySolution.Core.ServiceContracts.IPaymentService.IGetPaymentDetailsService)">
             <summary>
             Constructor for Payment Controller
             </summary>
             <param name="logger"></param>
-            <param name="paymentService"></param>
+            <param name="processPaymentService"></param>
+            <param name="getPaymentDetailsService"></param>
         </member>
         <member name="M:PaymentGatewaySolution.Api.Controllers.PaymentController.ProcessPayment(PaymentGateway.Core.ModelDTO.PaymentDTO.AddPaymentRequestDTO)">
             <summary>

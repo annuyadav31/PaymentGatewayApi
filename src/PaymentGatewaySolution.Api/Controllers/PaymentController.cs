@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PaymentGateway.Core.Exceptions;
 using PaymentGateway.Core.ModelDTO.PaymentDTO;
-using PaymentGateway.Core.ServiceContracts;
 using PaymentGatewaySolution.Api.Controllers.CustomControllerBases;
+using PaymentGatewaySolution.Core.ServiceContracts.IPaymentService;
 
 namespace PaymentGatewaySolution.Api.Controllers
 {
@@ -12,20 +12,24 @@ namespace PaymentGatewaySolution.Api.Controllers
     public class PaymentController : CustomControllerBase
     {
         #region "Readonly fields"
-        private readonly IPaymentService _paymentService;
+        private readonly IProcessPaymentService _processPaymentService;
+        private readonly IGetPaymentDetailsService _getPaymentDetailsService;
         private readonly ILogger<PaymentController> _logger;
         #endregion
+
 
         /// <summary>
         /// Constructor for Payment Controller
         /// </summary>
         /// <param name="logger"></param>
-        /// <param name="paymentService"></param>
+        /// <param name="processPaymentService"></param>
+        /// <param name="getPaymentDetailsService"></param>
         #region "Constructor"
-        public PaymentController(ILogger<PaymentController> logger, IPaymentService paymentService)
+        public PaymentController(ILogger<PaymentController> logger, IProcessPaymentService processPaymentService , IGetPaymentDetailsService getPaymentDetailsService)
         {
             _logger = logger;
-            _paymentService = paymentService;
+            _processPaymentService = processPaymentService;
+            _getPaymentDetailsService = getPaymentDetailsService;
 
         }
         #endregion
@@ -51,7 +55,7 @@ namespace PaymentGatewaySolution.Api.Controllers
                     return BadRequest(ModelState);
                 }
 
-                PaymentResponse payment = await _paymentService.ProcessPayment(paymentRequest);
+                PaymentResponse payment = await _processPaymentService.ProcessPayment(paymentRequest);
 
                 if (payment == null)
                 {
@@ -85,7 +89,7 @@ namespace PaymentGatewaySolution.Api.Controllers
         {
             try
             {
-                var payment = await _paymentService.GetPaymentDetails(Guid.Parse(transactionId));
+                var payment = await _getPaymentDetailsService.GetPaymentDetails(Guid.Parse(transactionId));
 
                 return Ok(payment);
             }
