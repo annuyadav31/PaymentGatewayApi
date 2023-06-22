@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using PaymentGateway.Core.Domain.BankSimulatorContracts;
+using PaymentGateway.Core.Exceptions;
 using PaymentGateway.Core.ModelDTO.PaymentDTO;
 using PaymentGatewaySolution.Core.Domain.RepositoryContracts.PaymentDetailsContracts;
 using PaymentGatewaySolution.Core.ServiceContracts.IPaymentService;
@@ -24,9 +25,29 @@ namespace PaymentGatewaySolution.Core.Services.PaymentService
             _bankSimulatorMock = new Mock<IBankSimulator>();
             _bankSimulator = _bankSimulatorMock.Object;
         }
-        public Task<PaymentResponse> GetPaymentDetails(Guid transactionId)
+
+        /// <summary>
+        /// Method to get payment deatils based on transactionId
+        /// </summary>
+        /// <param name="transactionId">Parameter which is used to uniquely identify the transactionId</param>
+        /// <returns>Returns the matched payment details</returns>
+        /// <exception cref="PaymentGatewayException"></exception>
+        public async Task<PaymentResponse> GetPaymentDetails(Guid transactionId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // Retrieve payment from the repository
+                var payment = await _getPaymentDetailsRepository.GetPayment(transactionId);
+                if (payment == null)
+                {
+                    return null;
+                }
+                return payment.ToPaymentResponse();
+            }
+            catch (Exception ex)
+            {
+                throw new PaymentGatewayException("Error retrieving payment details.", ex);
+            }
         }
     }
 }
