@@ -4,5 +4,38 @@
         <name>PaymentGatewaySolution.Api</name>
     </assembly>
     <members>
+        <member name="T:PaymentGatewaySolution.Api.Extensions.ServiceConfiguration">
+            <summary>
+            Extension Method to Configure Services
+            </summary>
+        </member>
+        <member name="M:PaymentGatewaySolution.Api.Extensions.ServiceConfiguration.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Method to configure services
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns>Returns Services</returns>
+        </member>
+        <member name="T:PaymentGatewaySolution.Api.Extensions.SwaggerConfiguration">
+            <summary>
+            Extension class for swagger configuration
+            </summary>
+        </member>
+        <member name="M:PaymentGatewaySolution.Api.Extensions.SwaggerConfiguration.ConfigureSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Method to configure swagger for services
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns>Returns Services</returns>
+        </member>
+        <member name="M:PaymentGatewaySolution.Api.Extensions.SwaggerConfiguration.ConfigureSwagger(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Method to configure swagger for application
+            </summary>
+            <param name="application"></param>
+            <returns>Returns Application</returns>
+        </member>
     </members>
 </doc>
