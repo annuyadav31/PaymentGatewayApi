@@ -21,12 +21,15 @@ namespace PaymentGateway.Infrastructure.Repositories
         /// <returns>Returns payment object</returns>
         public async Task<Payment> AddPayment(Payment payment)
         {
-            _db.Payments?.Add(payment);
-            if (payment.CardDetails != null)
+            if (payment != null)
             {
-                _db.CardDetails?.Add(payment.CardDetails);
+                _db.Payments?.Add(payment);
+                if (payment.CardDetails != null)
+                {
+                    _db.CardDetails?.Add(payment.CardDetails);
+                }
+                await _db.SaveChangesAsync();
             }
-            await _db.SaveChangesAsync();
             return payment;
         }
     }

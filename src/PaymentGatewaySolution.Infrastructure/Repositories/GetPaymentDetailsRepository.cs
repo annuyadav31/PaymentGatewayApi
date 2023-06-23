@@ -16,11 +16,6 @@ namespace PaymentGatewaySolution.Infrastructure.Repositories
         {
             var payment = await _db.Payments.Include("CardDetails").Where(temp => temp.TransactionID == paymentId).FirstOrDefaultAsync();
 
-            if (payment == null)
-            {
-                throw new PaymentGatewayException($"Payment with ID {paymentId} not found");
-            }
-
             return payment;
         }
     }

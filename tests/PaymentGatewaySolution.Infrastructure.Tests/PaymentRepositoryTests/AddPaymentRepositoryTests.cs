@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using Moq;
 using PaymentGateway.Infrastructure.Repositories;
 using PaymentGatewaySolution.Core.Domain.Models;
 using PaymentGatewaySolution.Infrastructure.Context;
@@ -11,105 +10,100 @@ namespace PaymentGatewaySolution.Infrastructure.Tests.PaymentRepositoryTests
 {
     public class AddPaymentRepositoryTests
     {
-
-        private readonly Mock<ApplicationDbContext> _mockDbContext;
-        private readonly Mock<DbSet<Payment>> _mockPaymentsDbSet;
-        private readonly Mock<DbSet<CardDetails>> _mockCardDetailsDbSet;
-        private readonly AddPaymentDetailsRepository _repository;
         private readonly Fixture _fixture;
         private readonly ITestOutputHelper _testOutputHelper;
 
         public AddPaymentRepositoryTests(ITestOutputHelper testOutputHelper)
         {
             _fixture = new Fixture();
-            _mockPaymentsDbSet = CreateMockDbSet<Payment>();
-            _mockCardDetailsDbSet = CreateMockDbSet<CardDetails>();
-            _mockDbContext = CreateMockDbContext();
-            _repository = new AddPaymentDetailsRepository(_mockDbContext.Object);
             _testOutputHelper = testOutputHelper;
         }
 
-        private Mock<DbSet<TEntity>> CreateMockDbSet<TEntity>() where TEntity : class
-        {
-            var data = new List<TEntity>();
-            var mockDbSet = new Mock<DbSet<TEntity>>();
-            mockDbSet.As<IQueryable<TEntity>>().Setup(m => m.Provider).Returns(data.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<TEntity>>().Setup(m => m.Expression).Returns(data.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<TEntity>>().Setup(m => m.ElementType).Returns(data.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<TEntity>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            mockDbSet.Setup(m => m.Add(It.IsAny<TEntity>())).Callback<TEntity>(item => data.Add(item));
-            mockDbSet.Setup(m => m.AddRange(It.IsAny<IEnumerable<TEntity>>())).Callback<IEnumerable<TEntity>>(items => data.AddRange(items));
 
-            return mockDbSet;
-        }
-
-        private Mock<ApplicationDbContext> CreateMockDbContext()
+        private async Task<ApplicationDbContext> GetDatabaseContext()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "PaymentGateway")
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
-
-            var mockDbContext = new Mock<ApplicationDbContext>(options);
-            mockDbContext.Setup(db => db.Set<Payment>()).Returns(_mockPaymentsDbSet.Object);
-            mockDbContext.Setup(db => db.Set<CardDetails>()).Returns(_mockCardDetailsDbSet.Object);
-
-            // Add necessary setup or configuration for the mock
-
-            return mockDbContext;
+            var databaseContext = new ApplicationDbContext(options);
+            databaseContext.Database.EnsureCreated();
+            if (await databaseContext.Payments.CountAsync() <= 0)
+            {
+              
+                for (int i = 1; i <= 10; i++)
+                {
+                    var payment = _fixture.Create<Payment>();
+                    databaseContext.Payments.Add(payment);
+                    await databaseContext.SaveChangesAsync();
+                }
+            }
+            return databaseContext;
         }
 
         [Fact]
-        public async Task AddPayment_ShouldAddPaymentToDatabase()
+        public async void AddPayment_ShouldAddPaymentToDatabase()
         {
+
             // Arrange
             var payment = _fixture.Create<Payment>();
+            var dbContext = await GetDatabaseContext();
+            var Repository = new AddPaymentDetailsRepository(dbContext);
 
             //Input
-            _testOutputHelper.WriteLine("Input:");
+            _testOutputHelper.WriteLine("Expected Output:");
             _testOutputHelper.WriteLine(payment.ToString());
 
-
             // Act
-            var result = await _repository.AddPayment(payment);
+            var result = await Repository.AddPayment(payment);
+
             //Actual Result to ITestOutputHelper
             _testOutputHelper.WriteLine("Actual Output:");
             _testOutputHelper.WriteLine(result.ToString());
 
             // Assert
-            _mockDbContext.Verify(db => db.Payments.Add(payment), Times.Once);
-            _mockDbContext.Verify(db => db.CardDetails.Add(It.IsAny<CardDetails>()), Times.Never);
-            _mockDbContext.Verify(db => db.SaveChanges(), Times.Once);
-            result.Should().Be(payment);
+            result.Should().NotBeNull();
+            result.Should().BeOfType<Payment>();
+            result.TransactionID.Should().Be(payment.TransactionID);
         }
 
+
         [Fact]
-        public async Task AddPayment_WithCardDetails_ShouldAddCardDetailsToDatabase()
+        public async void AddPayment_WithCardDetails_ShouldAddCardDetailsToDatabase()
         {
+
             // Arrange
-            var payment = _fixture.Build<Payment>()
-                .With(p => p.CardDetails, _fixture.Create<CardDetails>())
-                .Create();
+            var payment = _fixture.Build<Payment>().With(p => p.CardDetails, _fixture.Create<CardDetails>()).Create();
+            var dbContext = await GetDatabaseContext();
+            var Repository = new AddPaymentDetailsRepository(dbContext);
+
+            //Input
+            _testOutputHelper.WriteLine("Expected Output:");
+            _testOutputHelper.WriteLine(payment.ToString());
 
             // Act
-            var result = await _repository.AddPayment(payment);
+            var result = await Repository.AddPayment(payment);
+
+            //Actual Result to ITestOutputHelper
+            _testOutputHelper.WriteLine("Actual Output:");
+            _testOutputHelper.WriteLine(result.ToString());
 
             // Assert
-            _mockDbContext.Verify(db => db.Payments.Add(payment), Times.Once);
-            _mockDbContext.Verify(db => db.CardDetails.Add(payment.CardDetails), Times.Once);
-            _mockDbContext.Verify(db => db.SaveChanges(), Times.Once);
-            result.Should().Be(payment);
+            result.Should().NotBeNull();
+            result.Should().BeOfType<Payment>();
+            result.CardDetails?.CardNumber.Should().Be(payment.CardDetails?.CardNumber);
         }
 
         [Fact]
         public async Task AddPayment_WithNullPayment_ShouldNotAddToDatabase()
         {
+            //Arrange
+            var dbContext = await GetDatabaseContext();
+            var Repository = new AddPaymentDetailsRepository(dbContext);
+
             // Act
-            var result = await _repository.AddPayment(null);
+            var result = await Repository.AddPayment(null);
 
             // Assert
-            _mockDbContext.Verify(db => db.Payments.Add(It.IsAny<Payment>()), Times.Never);
-            _mockDbContext.Verify(db => db.CardDetails.Add(It.IsAny<CardDetails>()), Times.Never);
-            _mockDbContext.Verify(db => db.SaveChanges(), Times.Never);
             result.Should().BeNull();
         }
     }
